@@ -1,55 +1,73 @@
+import sys
 from PIL import Image, ImageDraw
+
 
 def getImageInfo(path):
     ogImage = Image.open(path)
-    imWidth,imHeight = ogImage.size
+    imWidth, imHeight = ogImage.size
     print(f"{imWidth} x {imHeight}")
-    pixels = ogImage.load()
-    print("rgb values top to bottom")
-    countX = 0
-    cooX = 0
-    unitX = imWidth
+    checkSize(ogImage, imWidth, imHeight)
+
+
+def checkSize(image, width, height):
+    pixels = image.load()
+    countX = 0  # same color pixel
+    cooX = 0  # last color change
+    unitX = width  # smallest horizontal unit
     countY = 0
     cooY = 0
-    unitY = imHeight
+    unitY = height  # smallest vertical unit
     unit = 0
 
     print("rgb values left to right")
-    for i in range(imWidth):
-        #print(pixels[i,0])
-        if pixels[cooX,0] != pixels[i,0]:
+    #look for color change and calculate unit size by distance
+    for x, i in zip(range(width), range(height)):
+        if pixels[cooX, i] != pixels[x, i]:
             if countX < unitX:
                 unitX = countX
-            cooX = i
+            cooX = x
             countX = 1
         else:
-            countX+=1
+            countX += 1
         print(f"{cooX} | {countX}")
-    
-    for i in range(imHeight):
-        #print(pixels[0,i])
-        if pixels[0,cooY] != pixels[0,i]:
+
+    print("rgb values top to bottom")
+    for y, i in zip(range(width), range(height)):
+        if pixels[i, cooY] != pixels[i, y]:
             if countY < unitY:
                 unitY = countY
-            cooY = i
+            cooY = y
             countY = 1
         else:
-            countY+=1
+            countY += 1
         print(f"{cooY} | {countY}")
+
     if unitX > unitY:
         unit = unitY
-    else:
+    elif unitX < unitY:
         unit = unitX
-        
-    print(f"\nOG Size\nWidth: {imWidth}\tHeight: {imHeight}\nCalcSize:\nWidth: {cooX+countX}\tHeight: {cooY+countY}\nSmallest unit size:\nHorizontal: {unitX}\tVertical: {unitY}\nPixel size: {unit}")
-    
-    pencil = ImageDraw.Draw(ogImage)
-    for x in range(0, imWidth, unit):
-        pencil.line((x, 0, x, imHeight), fill="black")
-    for y in range(0, imHeight, unit):
-        pencil.line((0, y, imWidth, y), fill="black")
-    ogImage.save("out.jpg")
-    
+    elif unitX > 1 and unitY > 1 and unitX == unitY:
+        unit = unitX
+    elif unitX == 1 or unitY == 1:
+        print("Pixel art not detected!")
+        sys.exit(0)
+    else:
+        print("Pixel art not detected!")
+        sys.exit(0)
+
+    print(f"\nOG Size\nWidth: {width}\tHeight: {height}\n"
+          f"CalcSize:\nWidth: {cooX + countX}\tHeight: {cooY + countY}\n"
+          f"Smallest unit size:\nHorizontal: {unitX}\tVertical: {unitY}\n"
+          f"Pixel size: {unit}")
+
+    pencil = ImageDraw.Draw(image)
+    for x in range(0, width, unit):
+        pencil.line((x, 0, x, height), fill="black")
+    for y in range(0, height, unit):
+        pencil.line((0, y, width, y), fill="black")
+    image.save("out.png")
+    print("Image saved!")
+
 
 if __name__ == '__main__':
     print("Drag&Drop an image from your pc!")
