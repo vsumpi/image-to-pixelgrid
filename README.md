@@ -1,4 +1,8 @@
 # Download
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/vsumpi/image-to-pixelgrid/total)
+![GitHub Release](https://img.shields.io/github/v/release/vsumpi/image-to-pixelgrid)
+
+
 [Latest version](https://github.com/vsumpi/image-to-pixelgrid/releases/latest)
 
 # Usage
