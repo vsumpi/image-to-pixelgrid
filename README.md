@@ -1,5 +1,6 @@
 # Usage
 1. Get a picture of a **pixel art**.
+
 **NOTE:**
   - Transparent images won't work yet!
   - Only submit **pixel arts**!
