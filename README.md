@@ -1,3 +1,6 @@
+# Download
+[Latest version](https://github.com/vsumpi/image-to-pixelgrid/releases/latest)
+
 # Usage
 1. Get a picture of a **pixel art**.
 
