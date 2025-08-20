@@ -12,7 +12,7 @@
 
 **NOTE:**
   - Transparent images won't work yet!
-  - Only submit **pixel arts**!
+  - Only submit **[pixel arts](https://en.wikipedia.org/wiki/Pixel_art)**!
   - Normal images will result in blank images!
 
 Input | Output
